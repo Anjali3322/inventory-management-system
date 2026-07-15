@@ -1,0 +1,152 @@
+import { useState, useEffect } from "react";
+import Common from "./Common";
+
+const SupplierModal = ({ open, onClose, supplier, onSave }) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    contact: "",
+    email: "",
+    phone: "",
+    country: "",
+    products: 0,
+    status: "Active",
+  });
+
+  useEffect(() => {
+    if (supplier) {
+      setFormData(supplier);
+    } else {
+      setFormData({
+        name: "",
+        contact: "",
+        email: "",
+        phone: "",
+        country: "",
+        products: 0,
+        status: "Active",
+      });
+    }
+  }, [supplier]);
+
+  if (!open) return null;
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: name === "products" ? Number(value) : value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSave(formData);
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex justify-center items-center z-50 p-4 transition-all">
+      <div className="bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-white)] rounded-2xl w-full max-w-md p-5 md:p-6 shadow-2xl transition-colors duration-200 max-h-[90vh] overflow-y-auto invisible-scrollbar">
+
+        <h2 className="text-xl font-bold mb-4 text-[var(--text-white)]">
+          {supplier ? "Edit Supplier" : "Add Supplier"}
+        </h2>
+
+        <form onSubmit={handleSubmit} className="space-y-3.5">
+
+          <div>
+            <label className="block mb-1 text-xs font-semibold text-[var(--text-gray)] uppercase tracking-wider">Supplier Name</label>
+            <input
+              type="text"
+              name="name"
+              required
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full p-2.5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-dark)]/50 text-[var(--text-white)] text-sm outline-none focus:border-[var(--primary-purple)] transition-all"
+            />
+          </div>
+
+          <div>
+            <label className="block mb-1 text-xs font-semibold text-[var(--text-gray)] uppercase tracking-wider">Contact Person</label>
+            <input
+              type="text"
+              name="contact"
+              required
+              value={formData.contact}
+              onChange={handleChange}
+              className="w-full p-2.5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-dark)]/50 text-[var(--text-white)] text-sm outline-none focus:border-[var(--primary-purple)] transition-all"
+            />
+          </div>
+
+          <div>
+            <label className="block mb-1 text-xs font-semibold text-[var(--text-gray)] uppercase tracking-wider">Email</label>
+            <input
+              type="email"
+              name="email"
+              required
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full p-2.5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-dark)]/50 text-[var(--text-white)] text-sm outline-none focus:border-[var(--primary-purple)] transition-all"
+            />
+          </div>
+
+          <div>
+            <label className="block mb-1 text-xs font-semibold text-[var(--text-gray)] uppercase tracking-wider">Phone</label>
+            <input
+              type="text"
+              name="phone"
+              required
+              value={formData.phone}
+              onChange={handleChange}
+              className="w-full p-2.5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-dark)]/50 text-[var(--text-white)] text-sm outline-none focus:border-[var(--primary-purple)] transition-all"
+            />
+          </div>
+
+          <div>
+            <label className="block mb-1 text-xs font-semibold text-[var(--text-gray)] uppercase tracking-wider">Country</label>
+            <input
+              type="text"
+              name="country"
+              required
+              value={formData.country}
+              onChange={handleChange}
+              className="w-full p-2.5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-dark)]/50 text-[var(--text-white)] text-sm outline-none focus:border-[var(--primary-purple)] transition-all"
+            />
+          </div>
+
+          <div>
+            <label className="block mb-1 text-xs font-semibold text-[var(--text-gray)] uppercase tracking-wider">Products Count</label>
+            <input
+              type="number"
+              name="products"
+              min="0"
+              value={formData.products}
+              onChange={handleChange}
+              className="w-full p-2.5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-dark)]/50 text-[var(--text-white)] text-sm outline-none focus:border-[var(--primary-purple)] transition-all"
+            />
+          </div>
+
+          <div>
+            <label className="block mb-1 text-xs font-semibold text-[var(--text-gray)] uppercase tracking-wider">Status</label>
+            <select
+              name="status"
+              value={formData.status}
+              onChange={handleChange}
+              className="w-full p-2.5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-dark)] text-[var(--text-white)] text-sm outline-none focus:border-[var(--primary-purple)] transition-all cursor-pointer"
+            >
+              <option value="Active" className="bg-[var(--bg-card)] text-[var(--text-white)]">Active</option>
+              <option value="Inactive" className="bg-[var(--bg-card)] text-[var(--text-white)]">Inactive</option>
+            </select>
+          </div>
+
+          <div className="flex justify-end gap-3 pt-3 border-t border-[var(--border-color)]/40">
+            <Common text="Cancel" bgColor="bg-slate-500/10 text-slate-400 hover:bg-slate-500/20" onClick={onClose} />
+            <Common text={supplier ? "Update" : "Save"} type="submit" bgColor="bg-[var(--primary-purple)] hover:bg-[var(--hover-purple)] text-white" />
+          </div>
+
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default SupplierModal;

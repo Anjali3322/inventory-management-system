@@ -1,5 +1,17 @@
 @import "tailwindcss";
+
 :root {
+  --bg-dark: #F8FAFC;
+  --bg-card: #FFFFFF;
+  --border-color: #E2E8F0;
+  --primary-purple: #5B4CF7;
+  --hover-purple: #4A3CE0;
+  --text-white: #0F172A;
+  --text-gray: #64748B;
+}
+
+
+body.dark {
   --bg-dark: #0F172A;
   --bg-card: #131C3A;
   --border-color: #24304F;
@@ -8,3 +20,6 @@
   --text-white: #F8FAFC;
   --text-gray: #94A3B8;
 }
+
+/* Dark-Mode */
+

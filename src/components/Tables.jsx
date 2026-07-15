@@ -1,62 +1,28 @@
 import Common from "./Common";
 
-const Tables = ({ columns, data, onEdit, onDelete }) => {
+const Tables = ({ columns, data, renderRow }) => {
   return (
-    <div className="overflow-hidden rounded-lg border">
+    <div className="overflow-hidden rounded-lg border w-full text-left border-collapse">
       <table className="w-full">
-        <thead className="bg-gray-100">
+        <thead className="bg-gray-100 dark:bg-[#1e293b]/20 text-[11px] font-bold tracking-wider text-slate-400">
           <tr>
             {columns.map((column, index) => (
-              <th key={index} className="p-3 text-left">
+              <th key={index} className="p-3 py-4 px-6 text-left">
                 {column}
               </th>
             ))}
           </tr>
         </thead>
 
-        <tbody>
+        <tbody className="divide-y text-[14px]">
           {data.length === 0 ? (
             <tr>
-              <td colSpan={columns.length} className="text-center p-6">
+              <td colSpan={columns.length} className="text-center p-6 text-slate-500">
                 No Data Found
               </td>
             </tr>
           ) : (
-            data.map((item) => (
-              <tr key={item.id} className="border-t">
-                <td className="p-3">{item.id}</td>
-
-                <td>{item.name}</td>
-
-                <td>{item.description}</td>
-
-                <td>
-                  <span
-                    className={`px-3 py-1 rounded-full text-sm ${
-                      item.status === "Active"
-                        ? "bg-green-100 text-green-700"
-                        : "bg-red-100 text-red-700"
-                    }`}
-                  >
-                    {item.status}
-                  </span>
-                </td>
-
-                <td className="space-x-2">
-                  <Common
-                    text="Edit"
-                    bgColor="bg-yellow-500"
-                    onClick={() => onEdit(item)}
-                  />
-
-                  <Common
-                    text="Delete"
-                    bgColor="bg-red-600"
-                    onClick={() => onDelete(item.id)}
-                  />
-                </td>
-              </tr>
-            ))
+            data.map((item, index) => renderRow(item, index))
           )}
         </tbody>
       </table>

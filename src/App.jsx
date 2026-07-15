@@ -1,33 +1,57 @@
-import { useState } from "react"; 
-import Categories from "./pages/Categories";
+import { Routes, Route, Navigate } from "react-router-dom"; 
 import Login from "./pages/Login";
 import Sidebar from "./components/Sidebar";
+import Navbar from "./components/Navbar";
+import Categories from "./pages/Categories";
+import Inventory from "./pages/Inventory";
+import Products from "./pages/Products"; 
+import Brands from "./pages/Brands";
+import Suppliers from "./pages/Suppliers";
+import Users from "./pages/Users";
+import Dashboard from "./pages/Dashboard";
+import Settings from "./pages/Settings"; 
+import Invoices from "./pages/Invoices";  
+import { ThemeProvider } from "./context/ThemeContext";
 
-function App() { 
-  const [login, setLogin] = useState(() => {
-    return localStorage.getItem("user") ? true : false;
-  });
+const DashboardLayout = () => {
+  const isAuthenticated = localStorage.getItem("userToken") || localStorage.getItem("user");
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
 
   return (
-    <>
-      {login ? (
-        <div className="relative">
-          <button 
-            onClick={() => {
-              localStorage.removeItem("user"); 
-              setLogin(false);        
-            }} 
-            className="absolute top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-md z-50 text-sm hover:bg-red-600 transition-colors"
-          >
-            Logout
-          </button>
-          {/* <Categories /> */}
-          <Sidebar/>
-        </div>
-      ) : (
-        <Login setLogin={setLogin} />
-      )}
-    </>
+    <div className="flex bg-[#f8fafc] dark:bg-[#0b0f19] min-h-screen">
+      <Sidebar />
+      <div className="flex-1 flex flex-col min-w-0">
+        <Navbar />
+        <main className="flex-1 overflow-y-auto">
+          <Routes>
+            <Route path="/categories" element={<Categories />} />
+            <Route path="/inventory" element={<Inventory />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/brands" element={<Brands />} />
+            <Route path="/suppliers" element={<Suppliers />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/invoices" element={<Invoices />} />
+            <Route path="/settings" element={<Settings />} />   
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          </Routes>
+        </main>
+      </div>
+    </div>
+  );
+};
+
+function App() { 
+  return (
+     <ThemeProvider>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/*" element={<DashboardLayout />} />
+      </Routes>
+    </ThemeProvider>
   );
 }
 

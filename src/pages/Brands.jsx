@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { FiSearch, FiPlus, FiEdit2, FiTrash2, FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import SupplierModal from "../components/SupplierModal";
+import BrandModal from "../components/BrandModal";
 import Tables from "../components/Tables";
-import { getSuppliers, createSupplier, updateSupplier, deleteSupplier } from "../api/supplierApi";
+import { getBrands, createBrand, updateBrand, deleteBrand } from "../api/brandApi";
 
 const avatarColors = [
   "bg-emerald-500",
@@ -15,35 +15,29 @@ const avatarColors = [
   "bg-pink-500",
 ];
 
-const getInitials = (name) => {
-  const parts = name.trim().split(" ");
-  if (parts.length >= 2) {
-    return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
-  }
-  return name.slice(0, 2).toUpperCase();
-};
+const getInitial = (name) => name.trim().charAt(0).toUpperCase();
 
-const Suppliers = () => {
+const Brands = () => {
   const [search, setSearch] = useState("");
   const [openModal, setOpenModal] = useState(false);
-  const [selectedSupplier, setSelectedSupplier] = useState(null);
+  const [selectedBrand, setSelectedBrand] = useState(null);
 
-  const [suppliers, setSuppliers] = useState([]);
+  const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
   const itemsPerPage = 6;
 
-  const fetchSuppliers = useCallback(async () => {
+  const fetchBrands = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await getSuppliers(currentPage, itemsPerPage, search);
-      setSuppliers(data.data || []);
+      const data = await getBrands(currentPage, itemsPerPage, search);
+      setBrands(data.data || []);
       setTotalPages(data.totalPages || 1);
       setTotalItems(data.totalItems || 0);
     } catch (error) {
-      console.error("Error fetching suppliers:", error);
+      console.error("Error fetching brands:", error);
     } finally {
       setLoading(false);
     }
@@ -51,61 +45,56 @@ const Suppliers = () => {
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      fetchSuppliers();
+      fetchBrands();
     }, 300);
 
     return () => clearTimeout(delayDebounceFn);
-  }, [fetchSuppliers]);
+  }, [fetchBrands]);
 
   const handleEdit = (item) => {
-    setSelectedSupplier(item);
+    setSelectedBrand(item);
     setOpenModal(true);
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this supplier?")) return;
+    if (!window.confirm("Are you sure you want to delete this brand?")) return;
 
     try {
-      await deleteSupplier(id);
-      fetchSuppliers();
+      await deleteBrand(id);
+      fetchBrands();
     } catch (error) {
-      console.error("Error deleting supplier:", error);
+      console.error("Error deleting brand:", error);
       alert("Failed to delete the selected item.");
     }
   };
 
   const handleSave = async (formData) => {
     try {
-      if (selectedSupplier) {
-        await updateSupplier(selectedSupplier._id, formData);
+      if (selectedBrand) {
+        await updateBrand(selectedBrand._id, formData);
       } else {
-        await createSupplier(formData);
+        await createBrand(formData);
         setCurrentPage(1);
       }
       setOpenModal(false);
-      fetchSuppliers();
+      fetchBrands();
     } catch (error) {
-      console.error("Error saving supplier:", error);
+      console.error("Error saving brand:", error);
       alert(error.message);
     }
   };
 
-  const columns = ["SUPPLIER", "CONTACT", "EMAIL", "PHONE", "COUNTRY", "PRODUCTS", "STATUS", "ACTIONS"];
+  const columns = ["LOGO", "BRAND NAME", "DESCRIPTION", "PRODUCTS", "STATUS", "ACTIONS"];
 
-  const renderSupplierRow = (item, index) => (
+  const renderBrandRow = (item, index) => (
     <tr key={item._id} className="hover:bg-[var(--bg-dark)]/30 transition-colors border-t border-[var(--border-color)]/60">
       <td className="py-4 px-6">
-        <div className="flex items-center gap-3">
-          <div className={`h-9 w-9 flex items-center justify-center rounded-full text-[13px] font-bold text-white shrink-0 ${avatarColors[index % avatarColors.length]}`}>
-            {getInitials(item.name)}
-          </div>
-          <span className="font-semibold text-[var(--text-white)]">{item.name}</span>
+        <div className={`h-9 w-9 flex items-center justify-center rounded-full text-[14px] font-bold text-white shrink-0 ${avatarColors[index % avatarColors.length]}`}>
+          {getInitial(item.name)}
         </div>
       </td>
-      <td className="py-4 px-6 text-[var(--text-gray)]">{item.contact}</td>
-      <td className="py-4 px-6 text-[var(--primary-purple)] font-medium">{item.email}</td>
-      <td className="py-4 px-6 text-[var(--text-gray)] text-[13px]">{item.phone}</td>
-      <td className="py-4 px-6 text-[var(--text-gray)]">{item.country}</td>
+      <td className="py-4 px-6 font-semibold text-[var(--text-white)]">{item.name}</td>
+      <td className="py-4 px-6 text-[var(--primary-purple)] font-medium">{item.description || "—"}</td>
       <td className="py-4 px-6 text-[var(--text-gray)]">{item.products}</td>
       <td className="py-4 px-6">
         <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[12px] font-medium transition-all ${
@@ -139,19 +128,19 @@ const Suppliers = () => {
     <div className="p-8 bg-[var(--bg-dark)] min-h-screen font-sans transition-colors duration-200">
       <div className="flex justify-between items-start mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-[var(--text-white)]">Suppliers</h1>
-          <p className="text-sm text-[var(--text-gray)] mt-0.5">{totalItems} suppliers registered</p>
+          <h1 className="text-2xl font-bold text-[var(--text-white)]">Brands</h1>
+          <p className="text-sm text-[var(--text-gray)] mt-0.5">{totalItems} brands registered</p>
         </div>
 
         <button
           onClick={() => {
-            setSelectedSupplier(null);
+            setSelectedBrand(null);
             setOpenModal(true);
           }}
           className="flex items-center gap-2 bg-[var(--primary-purple)] hover:bg-[var(--hover-purple)] text-white px-5 py-2.5 rounded-xl font-medium text-[14px] shadow-sm transition-all cursor-pointer"
         >
           <FiPlus size={16} className="stroke-3" />
-          Add Supplier
+          Add Brand
         </button>
       </div>
 
@@ -161,7 +150,7 @@ const Suppliers = () => {
             <FiSearch className="absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-[var(--text-gray)]" />
             <input
               type="text"
-              placeholder="Search suppliers..."
+              placeholder="Search brands..."
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value);
@@ -175,16 +164,16 @@ const Suppliers = () => {
         <div className="overflow-x-auto">
           {loading ? (
             <div className="py-12 text-center text-[var(--text-gray)] font-medium">
-              Loading supplier records from Database...
+              Loading brand records from Database...
             </div>
           ) : (
-            <Tables columns={columns} data={suppliers} renderRow={renderSupplierRow} />
+            <Tables columns={columns} data={brands} renderRow={renderBrandRow} />
           )}
         </div>
 
         <div className="p-4 px-6 border-t border-[var(--border-color)] flex items-center justify-between text-[var(--text-gray)] text-[13px] font-medium">
           <div>
-            Showing {suppliers.length === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1}-
+            Showing {brands.length === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1}-
             {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems}
           </div>
 
@@ -225,7 +214,7 @@ const Suppliers = () => {
               className={`p-1.5 rounded-lg border border-[var(--border-color)] transition-all ${
                 currentPage === totalPages
                   ? "opacity-40 cursor-not-allowed text-slate-500"
-                  : "hover:bg-[var(--bg-dark)]/40 cursor-pointer text-[var(--text-white)]"
+                  : "hover:bg-(--bg-dark)/40 cursor-pointer text-[var(--text-white)]"
               }`}
             >
               <FiChevronRight size={16} />
@@ -234,14 +223,14 @@ const Suppliers = () => {
         </div>
       </div>
 
-      <SupplierModal
+      <BrandModal
         open={openModal}
         onClose={() => setOpenModal(false)}
-        supplier={selectedSupplier}
+        brand={selectedBrand}
         onSave={handleSave}
       />
     </div>
   );
 };
 
-export default Suppliers;
+export default Brands;
