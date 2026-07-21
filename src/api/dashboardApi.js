@@ -1,4 +1,6 @@
-const BASE_URL = "http://localhost:5000/api/dashboard";
+// const BASE_URL = "http://localhost:5000/api/dashboard";
+import API_URL from "./config";
+const BASE_URL = `${API_URL}/api/dashboard`;
 
 export const getDashboardSummary = async (year) => {
   const response = await fetch(`${BASE_URL}/summary?year=${year}`);

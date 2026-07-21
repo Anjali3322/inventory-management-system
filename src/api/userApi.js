@@ -1,4 +1,6 @@
-const BASE_URL = "http://localhost:5000/api/users";
+// const BASE_URL = "http://localhost:5000/api/users";
+import API_URL from "./config";
+const BASE_URL = `${API_URL}/api/users`;
 
 // 1. GET Users (Handles pagination, search, and 304 caching)
 export const getUsers = async (page = 1, limit = 10, search = "") => {

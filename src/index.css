@@ -10,6 +10,7 @@
   --text-gray: #64748B;
 }
 
+/* Dark-Mode */
 
 body.dark {
   --bg-dark: #0F172A;
@@ -20,6 +21,3 @@ body.dark {
   --text-white: #F8FAFC;
   --text-gray: #94A3B8;
 }
-
-/* Dark-Mode */
-

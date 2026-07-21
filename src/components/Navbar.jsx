@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef } from "react";
-import { FiSearch, FiBell, FiMoon, FiSun, FiChevronDown, FiUser, FiSettings, FiLogOut } from "react-icons/fi";
+import { FiSearch, FiBell, FiMoon, FiSun, FiChevronDown, FiUser, FiSettings, FiLogOut, FiMenu } from "react-icons/fi";
 import { useLocation, useNavigate } from "react-router-dom"; 
 
-const Navbar = () => {
+const Navbar = ({ toggleMobileSidebar, onSearch }) => {
   const location = useLocation(); 
   const navigate = useNavigate();
   
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [searchVal, setSearchVal] = useState("");
   const dropdownRef = useRef(null);
 
   const getPageTitle = () => {
@@ -76,6 +77,18 @@ const Navbar = () => {
     }
   };
 
+  const handleSearchChange = (e) => {
+    const val = e.target.value;
+    setSearchVal(val);
+    if (onSearch) {
+      onSearch(val); 
+    }
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+  };
+
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("theme");
@@ -96,25 +109,34 @@ const Navbar = () => {
   }, [darkMode]);
 
   return (
-    <nav className="sticky top-0 z-50 flex w-full items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111820] px-6 py-3 transition-colors duration-200">
+    <nav className="sticky top-0 z-30 flex w-full items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111820] px-6 py-3 transition-colors duration-200">
       
-      <div className="flex flex-1 items-center gap-6">
+      <div className="flex flex-1 items-center gap-4 lg:gap-6">
+        <button 
+          onClick={toggleMobileSidebar}
+          type="button"
+          className="lg:hidden p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer block"
+        >
+          <FiMenu size={22} />
+        </button>
+
         <h1 className="text-xl font-bold text-slate-800 dark:text-slate-100 min-w-30">
           {getPageTitle()}
         </h1>
 
-        <div className="relative w-full max-w-md hidden sm:block">
+        <form onSubmit={handleSearchSubmit} className="relative w-full max-w-md hidden sm:block">
           <FiSearch className="absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-slate-400" />
           <input
             type="text"
+            value={searchVal}
+            onChange={handleSearchChange}
             placeholder="Search Dashboard..."
             className="w-full rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 py-2.5 pr-4 pl-11 text-[14px] text-slate-700 dark:text-slate-200 outline-none transition-all placeholder:text-slate-400 focus:border-slate-300 dark:focus:border-slate-700 focus:bg-white dark:focus:bg-[#111820]"
           />
-        </div>
+        </form>
       </div>
 
       <div className="flex items-center gap-3">
-        
         <button
           onClick={() => setDarkMode(!darkMode)}
           className="rounded-full p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-colors"
@@ -153,8 +175,7 @@ const Navbar = () => {
           </div>
 
           {dropdownOpen && (
-            <div className="absolute right-0 mt-3.5 w-64 origin-top-right rounded-xl border border-slate-100 dark:border-slate-800/80 bg-white dark:bg-[#1a222d] p-1.5 shadow-xl ring-1 ring-black/5 z-999">
-              
+            <div className="absolute right-0 mt-3.5 w-64 origin-top-right rounded-xl border border-slate-100 dark:border-slate-800/80 bg-white dark:bg-[#1a222d] p-1.5 shadow-xl ring-1 ring-black/5 z-50">
               <div className="px-3.5 py-3 border-b border-slate-100 dark:border-slate-800/60 mb-1">
                 <p className="text-sm font-semibold text-slate-800 dark:text-slate-100 tracking-tight">
                   {currentUser.name}
@@ -195,7 +216,6 @@ const Navbar = () => {
             </div>
           )}
         </div>
-
       </div>
     </nav>
   );

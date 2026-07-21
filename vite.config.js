@@ -7,4 +7,9 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  server: {
+    allowedHosts: [
+      'subpanel-stranger-probably.ngrok-free.dev' 
+    ]
+  }
 })

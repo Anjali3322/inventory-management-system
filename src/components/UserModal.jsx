@@ -2,28 +2,26 @@ import { useState, useEffect } from "react";
 import Common from "./Common";
 
 const UserModal = ({ open, onClose, user, onSave }) => {
-  // Safe default initial state jo backend data structure se match kare
   const defaultState = {
     username: "",
     email: "",
     phone: "",
-    role: "employee", // Mapped to lowercase to match backend
+    role: "employee", 
     status: "Active",
   };
 
   const [formData, setFormData] = useState(defaultState);
 
-  // Modal open hone par ya active user change hone par state control
   useEffect(() => {
     if (open) {
       if (user) {
         setFormData({
           username: user.username || user.name || "", 
           email: user.email || "",
-          phone: user.phone || "",
-          role: user.role ? user.role.toLowerCase() : "employee", // Handle lowercase fallback
+          phone: user.phone || "", 
+          role: user.role ? user.role.toLowerCase() : "employee", 
           status: user.status || "Active",
-          _id: user._id || null, // Keeping the reference ID for updates
+          _id: user._id || null,
         });
       } else {
         setFormData(defaultState);
@@ -47,17 +45,16 @@ const UserModal = ({ open, onClose, user, onSave }) => {
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex justify-center items-center z-50 p-4 transition-all">
-      <div className="bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-white)] rounded-2xl w-full max-w-md p-5 md:p-6 shadow-2xl transition-colors duration-200 max-h-[90vh] overflow-y-auto invisible-scrollbar">
+      <div className="bg-(--bg-card) border border-(--border-color) text-(--text-white) rounded-2xl w-full max-w-md p-5 md:p-6 shadow-2xl transition-colors duration-200 max-h-[90vh] overflow-y-auto invisible-scrollbar">
 
-        <h2 className="text-xl font-bold mb-4 text-[var(--text-white)]">
+        <h2 className="text-xl font-bold mb-4 text-(--text-white)">
           {user ? "Edit User" : "Add User"}
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-3.5">
 
-          {/* Username Input Field */}
           <div>
-            <label className="block mb-1 text-xs font-semibold text-[var(--text-gray)] uppercase tracking-wider">
+            <label className="block mb-1 text-xs font-semibold text-(--text-gray) uppercase tracking-wider">
               Username / Full Name
             </label>
             <input
@@ -66,13 +63,12 @@ const UserModal = ({ open, onClose, user, onSave }) => {
               required
               value={formData.username}
               onChange={handleChange}
-              className="w-full p-2.5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-dark)]/50 text-[var(--text-white)] text-sm outline-none focus:border-[var(--primary-purple)] transition-all"
+              className="w-full p-2.5 rounded-xl border border-(--border-color) bg-(--bg-dark)/50 text-(--text-white) text-sm outline-none focus:border-(--primary-purple) transition-all"
             />
           </div>
 
-          {/* Email Input Field */}
           <div>
-            <label className="block mb-1 text-xs font-semibold text-[var(--text-gray)] uppercase tracking-wider">
+            <label className="block mb-1 text-xs font-semibold text-(--text-gray) uppercase tracking-wider">
               Email
             </label>
             <input
@@ -81,13 +77,12 @@ const UserModal = ({ open, onClose, user, onSave }) => {
               required
               value={formData.email}
               onChange={handleChange}
-              className="w-full p-2.5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-dark)]/50 text-[var(--text-white)] text-sm outline-none focus:border-[var(--primary-purple)] transition-all"
+              className="w-full p-2.5 rounded-xl border border-(--border-color) bg-(--bg-dark)/50 text-(--text-white) text-sm outline-none focus:border-(--primary-purple) transition-all"
             />
           </div>
 
-          {/* Phone Input Field */}
           <div>
-            <label className="block mb-1 text-xs font-semibold text-[var(--text-gray)] uppercase tracking-wider">
+            <label className="block mb-1 text-xs font-semibold text-(--text-gray) uppercase tracking-wider">
               Phone
             </label>
             <input
@@ -96,45 +91,42 @@ const UserModal = ({ open, onClose, user, onSave }) => {
               required
               value={formData.phone}
               onChange={handleChange}
-              className="w-full p-2.5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-dark)]/50 text-[var(--text-white)] text-sm outline-none focus:border-[var(--primary-purple)] transition-all"
+              className="w-full p-2.5 rounded-xl border border-(--border-color) bg-(--bg-dark)/50 text-(--text-white) text-sm outline-none focus:border-(--primary-purple) transition-all"
             />
           </div>
 
-          {/* Role Selection Dropdown */}
           <div>
-            <label className="block mb-1 text-xs font-semibold text-[var(--text-gray)] uppercase tracking-wider">
+            <label className="block mb-1 text-xs font-semibold text-(--text-gray) uppercase tracking-wider">
               Role
             </label>
             <select
               name="role"
               value={formData.role}
               onChange={handleChange}
-              className="w-full p-2.5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-dark)] text-[var(--text-white)] text-sm outline-none focus:border-[var(--primary-purple)] transition-all cursor-pointer"
+              className="w-full p-2.5 rounded-xl border border-(--border-color) bg-(--bg-dark) text-(--text-white) text-sm outline-none focus:border-(--primary-purple) transition-all cursor-pointer"
             >
-              <option value="admin" className="bg-[var(--bg-card)] text-[var(--text-white)]">Admin</option>
-              <option value="manager" className="bg-[var(--bg-card)] text-[var(--text-white)]">Manager</option>
-              <option value="employee" className="bg-[var(--bg-card)] text-[var(--text-white)]">Staff / Employee</option>
+              <option value="admin" className="bg-(--bg-card) text-(--text-white)">Admin</option>
+              <option value="manager" className="bg-(--bg-card) text-(--text-white)">Manager</option>
+              <option value="employee" className="bg-(--bg-card) text-(--text-white)">Staff / Employee</option>
             </select>
           </div>
 
-          {/* Status Selection Dropdown */}
           <div>
-            <label className="block mb-1 text-xs font-semibold text-[var(--text-gray)] uppercase tracking-wider">
+            <label className="block mb-1 text-xs font-semibold text-(--text-gray) uppercase tracking-wider">
               Status
             </label>
             <select
               name="status"
               value={formData.status}
               onChange={handleChange}
-              className="w-full p-2.5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-dark)] text-[var(--text-white)] text-sm outline-none focus:border-[var(--primary-purple)] transition-all cursor-pointer"
+              className="w-full p-2.5 rounded-xl border border-(--border-color) bg-(--bg-dark) text-(--text-white) text-sm outline-none focus:border-(--primary-purple) transition-all cursor-pointer"
             >
-              <option value="Active" className="bg-[var(--bg-card)] text-[var(--text-white)]">Active</option>
-              <option value="Inactive" className="bg-[var(--bg-card)] text-[var(--text-white)]">Inactive</option>
+              <option value="Active" className="bg-(--bg-card) text-(--text-white)">Active</option>
+              <option value="Inactive" className="bg-(--bg-card) text-(--text-white)">Inactive</option>
             </select>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex justify-end gap-3 pt-3 border-t border-[var(--border-color)]/40">
+          <div className="flex justify-end gap-3 pt-3 border-t border-(--border-color)/40">
             <Common 
               text="Cancel" 
               type="button" 

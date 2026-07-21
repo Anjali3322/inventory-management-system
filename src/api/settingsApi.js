@@ -1,4 +1,6 @@
-const BASE_URL = "http://localhost:5000/api/settings";
+// const BASE_URL = "http://localhost:5000/api/settings";
+import API_URL from "./config";
+const BASE_URL = `${API_URL}/api/settings`;
 
 const handle = async (response, fallbackMessage) => {
   if (!response.ok) {

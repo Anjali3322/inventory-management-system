@@ -1,5 +1,8 @@
-const BASE_URL = "http://localhost:5000/api/invoices";
-const PRODUCTS_URL = "http://localhost:5000/api/products";
+// const BASE_URL = "http://localhost:5000/api/invoices";
+// const PRODUCTS_URL = "http://localhost:5000/api/products";
+import API_URL from "./config";
+const BASE_URL = `${API_URL}/api/invoices`;
+const PRODUCTS_URL = `${API_URL}/api/products`;
 
 const handle = async (response, fallbackMessage) => {
   if (!response.ok) {

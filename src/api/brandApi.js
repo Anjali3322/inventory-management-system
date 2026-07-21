@@ -1,4 +1,9 @@
-const BASE_URL = "http://localhost:5000/api/brands";
+
+
+import API_URL from "./config";
+const BASE_URL = `${API_URL}/api/brands`;
+// const BASE_URL = "http://localhost:5000/api/brands";
+
 
 export const getBrands = async (page, limit, search) => {
   const response = await fetch(`${BASE_URL}?page=${page}&limit=${limit}&search=${search}`);

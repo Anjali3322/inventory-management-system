@@ -112,17 +112,17 @@ const Users = () => {
     const currentRole = item.role ? item.role.toLowerCase() : "employee";
 
     return (
-      <tr key={item._id} className="hover:bg-[var(--bg-dark)]/30 transition-colors border-t border-[var(--border-color)]/60">
+      <tr key={item._id} className="hover:bg-(--bg-dark)/30 transition-colors border-t border-(--border-color)/60">
         <td className="py-4 px-6">
           <div className="flex items-center gap-3">
             <div className={`h-9 w-9 flex items-center justify-center rounded-full text-[13px] font-bold text-white shrink-0 ${avatarColors[index % avatarColors.length]}`}>
               {getInitials(currentUsername)}
             </div>
-            <span className="font-semibold text-[var(--text-white)]">{currentUsername}</span>
+            <span className="font-semibold text-(--text-white)">{currentUsername}</span>
           </div>
         </td>
-        <td className="py-4 px-6 text-[var(--primary-purple)] font-medium">{item.email || "N/A"}</td>
-        <td className="py-4 px-6 text-[var(--text-gray)] text-[13px]">{item.phone || "N/A"}</td>
+        <td className="py-4 px-6 text-(--primary-purple) font-medium">{item.email || "N/A"}</td>
+        <td className="py-4 px-6 text-(--text-gray) text-[13px]">{item.phone || "N/A"}</td>
         <td className="py-4 px-6">
           <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[12px] font-medium transition-all ${roleStyles[currentRole] || "bg-slate-500/10 text-slate-400"}`}>
             {item.role || "Employee"}
@@ -137,12 +137,12 @@ const Users = () => {
             {item.status || "Inactive"}
           </span>
         </td>
-        <td className="py-4 px-6 text-[var(--text-gray)] text-[13px]">{item.lastLogin || "Never"}</td>
+        <td className="py-4 px-6 text-(--text-gray) text-[13px]">{item.lastLogin || "Never"}</td>
         <td className="py-4 px-6">
-          <div className="flex items-center justify-center gap-3 text-[var(--text-gray)]">
+          <div className="flex items-center justify-center gap-3 text-(--text-gray)">
             <button
               onClick={() => handleEdit(item)}
-              className="hover:text-[var(--primary-purple)] transition-colors p-1 cursor-pointer"
+              className="hover:text-(--primary-purple) transition-colors p-1 cursor-pointer"
             >
               <FiEdit2 size={15} />
             </button>
@@ -159,11 +159,11 @@ const Users = () => {
   };
 
   return (
-    <div className="p-8 bg-[var(--bg-dark)] min-h-screen font-sans transition-colors duration-200">
+    <div className="p-8 bg-(--bg-dark) min-h-screen font-sans transition-colors duration-200">
       <div className="flex justify-between items-start mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-[var(--text-white)]">Users</h1>
-          <p className="text-sm text-[var(--text-gray)] mt-0.5">{totalItems} users registered</p>
+          <h1 className="text-2xl font-bold text-(--text-white)">Users</h1>
+          <p className="text-sm text-(--text-gray) mt-0.5">{totalItems} users registered</p>
         </div>
 
         <button
@@ -171,17 +171,17 @@ const Users = () => {
             setSelectedUser(null);
             setOpenModal(true);
           }}
-          className="flex items-center gap-2 bg-[var(--primary-purple)] hover:bg-[var(--hover-purple)] text-white px-5 py-2.5 rounded-xl font-medium text-[14px] shadow-sm transition-all cursor-pointer"
+          className="flex items-center gap-2 bg-(--primary-purple) hover:bg-(--hover-purple) text-white px-5 py-2.5 rounded-xl font-medium text-[14px] shadow-sm transition-all cursor-pointer"
         >
           <FiPlus size={16} className="stroke-3" />
           Add User
         </button>
       </div>
 
-      <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl shadow-sm overflow-hidden transition-all">
-        <div className="p-5 border-b border-[var(--border-color)]">
+      <div className="bg-(--bg-card) border border-(--border-color) rounded-2xl shadow-sm overflow-hidden transition-all">
+        <div className="p-5 border-b border-(--border-color)">
           <div className="relative w-full max-w-xs">
-            <FiSearch className="absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-[var(--text-gray)]" />
+            <FiSearch className="absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-(--text-gray)" />
             <input
               type="text"
               placeholder="Search users..."

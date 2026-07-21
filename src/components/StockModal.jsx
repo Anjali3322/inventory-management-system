@@ -32,16 +32,16 @@ const StockModal = ({ open, onClose, product, onSave }) => {
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex justify-center items-center z-50 p-4 transition-all">
-      <div className="bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-white)] rounded-2xl w-full max-w-md p-5 md:p-6 shadow-2xl transition-colors duration-200">
+      <div className="bg-(--bg-card) border border-(--border-color) text-(--text-white) rounded-2xl w-full max-w-md p-5 md:p-6 shadow-2xl transition-colors duration-200">
 
-        <h2 className="text-xl font-bold mb-4 text-[var(--text-white)]">
+        <h2 className="text-xl font-bold mb-4 text-(--text-white)">
           Update Stock — {product?.name}
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-3.5">
 
           <div>
-            <label className="block mb-1 text-xs font-semibold text-[var(--text-gray)] uppercase tracking-wider">In Stock</label>
+            <label className="block mb-1 text-xs font-semibold text-(--text-gray) uppercase tracking-wider">In Stock</label>
             <input
               type="number"
               name="quantity"
@@ -49,12 +49,12 @@ const StockModal = ({ open, onClose, product, onSave }) => {
               required
               value={formData.quantity}
               onChange={handleChange}
-              className="w-full p-2.5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-dark)]/50 text-[var(--text-white)] text-sm outline-none focus:border-[var(--primary-purple)] transition-all"
+              className="w-full p-2.5 rounded-xl border border-(--border-color) bg-(--bg-dark)/50 text-(--text-white) text-sm outline-none focus:border-(--primary-purple) transition-all"
             />
           </div>
 
           <div>
-            <label className="block mb-1 text-xs font-semibold text-[var(--text-gray)] uppercase tracking-wider">Min Stock</label>
+            <label className="block mb-1 text-xs font-semibold text-(--text-gray) uppercase tracking-wider">Min Stock</label>
             <input
               type="number"
               name="minStock"
@@ -62,11 +62,11 @@ const StockModal = ({ open, onClose, product, onSave }) => {
               required
               value={formData.minStock}
               onChange={handleChange}
-              className="w-full p-2.5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-dark)]/50 text-[var(--text-white)] text-sm outline-none focus:border-[var(--primary-purple)] transition-all"
+              className="w-full p-2.5 rounded-xl border border-(--border-color) bg-(--bg-dark)/50 text-(--text-white) text-sm outline-none focus:border-(--primary-purple) transition-all"
             />
           </div>
 
-          <div className="flex justify-end gap-3 pt-3 border-t border-[var(--border-color)]/40">
+          <div className="flex justify-end gap-3 pt-3 border-t border-(--border-color)/40">
             <Common text="Cancel" bgColor="bg-slate-500/10 text-slate-400 hover:bg-slate-500/20" onClick={onClose} />
             <Common text="Update" type="submit" bgColor="bg-[var(--primary-purple)] hover:bg-[var(--hover-purple)] text-white" />
           </div>
