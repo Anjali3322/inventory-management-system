@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { FiSearch, FiPlus, FiEdit2, FiTrash2, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import CategoryModal from "../components/CategoryModal";
 import Tables from "../components/Tables"; 
+import API_URL from "../api/config";
 
 const Categories = () => {
   const [search, setSearch] = useState("");
@@ -19,8 +20,10 @@ const Categories = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        `http://localhost:5000/api/categories?page=${currentPage}&limit=${itemsPerPage}&search=${search}`
+      `${API_URL}/api/categories?page=${currentPage}&limit=${itemsPerPage}&search=${search}`
+        
       );
+      
       
       if (!response.ok) throw new Error("Failed to fetch data from API server");
       
@@ -53,7 +56,7 @@ const Categories = () => {
     if (!window.confirm("Are you sure you want to delete this category?")) return;
     
     try {
-      const response = await fetch(`http://localhost:5000/api/categories/${id}`, {
+      const response = await fetch(`${API_URL}/api/categories/${id}`, {
         method: "DELETE",
       });
       
@@ -70,7 +73,7 @@ const Categories = () => {
   const handleSave = async (formData) => {
     try {
       if (selectedCategory) {
-        const response = await fetch(`http://localhost:5000/api/categories/${selectedCategory._id}`, {
+        const response = await fetch(`${API_URL}/api/categories/${selectedCategory._id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),
@@ -78,7 +81,7 @@ const Categories = () => {
         
         if (response.ok) fetchCategories();
       } else {
-        const response = await fetch(`http://localhost:5000/api/categories`, {
+        const response = await fetch(`${API_URL}/api/categories`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),

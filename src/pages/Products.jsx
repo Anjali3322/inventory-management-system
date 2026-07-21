@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { FiSearch, FiPlus, FiEdit2, FiTrash2, FiChevronLeft, FiChevronRight, FiX, FiUploadCloud, FiTrash } from "react-icons/fi";
+import API_URL from "../api/config";
 
 const Products = () => {
   const [search, setSearch] = useState("");
@@ -42,7 +43,7 @@ const Products = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        `http://localhost:5000/api/products?page=${currentPage}&limit=${itemsPerPage}&search=${search}&category=${selectedCategory}`
+        `${API_URL}/api/products?page=${currentPage}&limit=${itemsPerPage}&search=${search}&category=${selectedCategory}`
       );
       
       if (!response.ok) throw new Error("Failed to pipeline data from Server");
@@ -145,8 +146,8 @@ const Products = () => {
 
     try {
       const url = isEditing 
-        ? `http://localhost:5000/api/products/${currentProductId}`
-        : "http://localhost:5000/api/products";
+        ? `${API_URL}/api/products/${currentProductId}`
+        : `${API_URL}/api/products`;
       
       const method = isEditing ? "PUT" : "POST";
 
@@ -173,7 +174,7 @@ const Products = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to completely erase this product?")) return;
     try {
-      const response = await fetch(`http://localhost:5000/api/products/${id}`, {
+      const response = await fetch(`${API_URL}/api/products/${id}`, {
         method: "DELETE",
       });
       if (response.ok) fetchProducts();
